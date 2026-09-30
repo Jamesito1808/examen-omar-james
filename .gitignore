@@ -1,0 +1,57 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Build output (Vite + React)
+dist/
+dist-ssr/
+build/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Env files (Vite + Supabase creds)
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+.supabase/
+supabase/.env
+supabase/config.toml.bak
+
+# Supabase CLI / local dev
+.branches/
+.temp/
+
+# TypeScript / Vite cache
+*.tsbuildinfo
+vite.config.*.timestamp-*.mjs
+node_modules/.vite/
+node_modules/.cache/
+
+# Testing / coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.pem
