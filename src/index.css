@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Sober institutional design tokens (light-first).
+ * Background #FFFFFF / #F8FAFC, ink #0F172A / #1E293B,
+ * primary navy #1E3A5F, muted gold #8A7535 (champion only),
+ * borders #E2E8F0. Max radius 6px cards, 4px tables/badges/buttons.
+ */
+:root {
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --ink: #0f172a;
+  --ink-soft: #1e293b;
+  --primary: #1e3a5f;
+  --gold: #8a7535;
+  --border: #e2e8f0;
+  --radius-card: 6px;
+  --radius-sm: 4px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, 'Lato', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+.font-heading {
+  font-family: 'EB Garamond', 'Source Serif 4', Georgia, serif;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+/* Rectangular tables with gray header */
+.table-formal {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.table-formal thead th {
+  background: #f1f5f9;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table-formal tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.table-formal tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Cards: max 6px radius, hairline border, no neon shadows */
+.card-formal {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* Buttons/badges: 4px radius, min 44px touch target */
+.btn-formal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: 1px solid var(--primary);
+}
+
+.btn-primary:hover {
+  background: #152a45;
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--surface);
+}
+
+.badge-formal {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+
+.badge-gold {
+  background: #f5f0df;
+  border-color: #d9cfa8;
+  color: #5c4e1f;
+}
+
+/* Visible focus for keyboard users */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #1e3a5f;
+  outline-offset: 2px;
+}
+
+/* Motion: 150-300ms only, honor reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
