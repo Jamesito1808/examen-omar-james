@@ -28,6 +28,9 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
+# Herramientas locales de asistencia
+.atl/
+
 # Env files (Vite + Supabase creds)
 .env
 .env.local

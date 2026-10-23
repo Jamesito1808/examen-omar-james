@@ -1,51 +1,56 @@
-import { NavLink, Route, Routes } from 'react-router-dom'
-import { CalendarDays, LayoutList, Medal, ShieldCheck, Trophy } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
 import General from './pages/General'
 import Disciplina from './pages/Disciplina'
 import Horario from './pages/Horario'
 import Admin from './pages/Admin'
+import ThemeToggle from './components/ThemeToggle'
 
-const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `inline-flex min-h-[44px] items-center gap-2 rounded-sm border px-3 py-2 text-sm font-semibold transition-colors duration-200 ${
-    isActive
-      ? 'border-navy bg-navy text-white'
-      : 'border-line bg-white text-ink-soft hover:bg-surface'
-  }`
+gsap.registerPlugin(useGSAP)
+const pageTitles: Record<string, string> = { '/': 'Clasificación general', '/disciplinas': 'Disciplinas', '/horario': 'Horario', '/admin': 'Administración' }
 
 export default function App() {
+  const { pathname } = useLocation()
+  const main = useRef<HTMLElement>(null)
+  const previousPath = useRef(pathname)
+  useGSAP(() => {
+    const media = gsap.matchMedia()
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.from('.page-intro', { y: 12, opacity: 0.6, duration: 0.35, ease: 'power2.out', clearProps: 'transform,opacity' })
+    }, main)
+    return () => media.revert()
+  }, { scope: main, dependencies: [pathname], revertOnUpdate: true })
+
+  useEffect(() => {
+    document.title = `${pageTitles[pathname] ?? 'Olimpiadas'} | Olimpiadas escolares`
+    if (previousPath.current !== pathname) {
+      main.current?.focus({ preventScroll: true })
+      window.scrollTo(0, 0)
+      previousPath.current = pathname
+    }
+  }, [pathname])
+
   return (
-    <div className="min-h-dvh bg-paper text-ink">
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2">
-        Skip to main content
-      </a>
-      <header className="border-b border-line bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-sm bg-navy text-white" aria-hidden="true">
-              <Trophy size={20} strokeWidth={1.75} />
-            </span>
-            <div>
-              <p className="font-heading text-xl font-semibold leading-tight">Olimpiadas Escolares</p>
-              <p className="text-sm text-ink-muted">Overall standings, disciplines and schedule</p>
-            </div>
-          </div>
-          <nav aria-label="Primary" className="flex flex-wrap gap-2">
-            <NavLink to="/" className={linkClass}>
-              <Medal size={16} aria-hidden="true" /> Overall
-            </NavLink>
-            <NavLink to="/disciplinas" className={linkClass}>
-              <LayoutList size={16} aria-hidden="true" /> Disciplines
-            </NavLink>
-            <NavLink to="/horario" className={linkClass}>
-              <CalendarDays size={16} aria-hidden="true" /> Schedule
-            </NavLink>
-            <NavLink to="/admin" className={linkClass}>
-              <ShieldCheck size={16} aria-hidden="true" /> Admin
-            </NavLink>
+    <div className="app-shell">
+      <a href="#main" className="skip-link">Saltar al contenido principal</a>
+      <header className="site-header">
+        <div className="header-inner">
+          <NavLink to="/" className="brand" aria-label="Olimpiadas escolares: inicio">
+            <img className="brand-logo" src="/ueea-logo.jpg" alt="Escudo de la Unidad Educativa Ecuatoriana Austriaca Pedro Carbo" width={46} height={46} />
+            <span><strong>Olimpiadas escolares</strong><small>El encuentro de nuestros cursos</small></span>
+          </NavLink>
+          <nav aria-label="Navegación principal">
+            <NavLink end to="/">General</NavLink>
+            <NavLink to="/disciplinas">Disciplinas</NavLink>
+            <NavLink to="/horario">Horario</NavLink>
+            <NavLink to="/admin">Administración</NavLink>
           </nav>
+          <ThemeToggle />
         </div>
       </header>
-      <main id="main" className="mx-auto w-full max-w-6xl px-4 py-8">
+      <main id="main" ref={main} tabIndex={-1} className="main-container">
         <Routes>
           <Route path="/" element={<General />} />
           <Route path="/disciplinas" element={<Disciplina />} />
@@ -53,10 +58,9 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
-      <footer className="border-t border-line bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-6 text-sm text-ink-muted">
-          <p>School Olympics week, Monday to Friday. Public read access, admin write access.</p>
-        </div>
+      <footer className="site-footer">
+        <div><strong>El deporte nos reúne.</strong><p>Olimpiadas escolares · De lunes a viernes</p></div>
+        <p>Versión de demostración. Resultados y agenda de ejemplo.</p>
       </footer>
     </div>
   )

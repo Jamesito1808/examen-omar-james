@@ -1,5 +1,6 @@
 import type { Fixture, WeekDay } from '../data/mock'
-import { WEEK_DAYS } from '../data/mock'
+import { WEEK_DAYS, courseName } from '../data/mock'
+import { dayName } from './display'
 
 export interface SlotKey {
   fecha: WeekDay
@@ -45,7 +46,7 @@ export function detectConflicts(fixtures: Fixture[]): string[] {
       const key = `${course}@${slotKey(f.fecha, f.hora)}`
       const prev = seen.get(key)
       if (prev) {
-        conflicts.push(`Conflict: course ${course} double-booked at ${f.fecha} ${f.hora} (${prev} vs ${f.id})`)
+        conflicts.push(`Cruce de horario: ${courseName(course)} tiene dos encuentros el ${dayName(f.fecha).toLowerCase()} a las ${f.hora} (${prev} y ${f.id}).`)
       } else {
         seen.set(key, f.id)
       }
@@ -102,5 +103,5 @@ export function generateWeekSchedule(
 }
 
 // Manual test: run with `pnpm run build` safe — call from console when needed.
-// generateWeekSchedule('futbol', 'Cancha principal', ['c-3a','c-3b','c-3c','c-3d'], fixtures)
+// generateWeekSchedule('futbol', 'Cancha principal', ['c-3a','c-3b','c-3c'], fixtures)
 // then detectConflicts([...fixtures, ...created]) must return [].

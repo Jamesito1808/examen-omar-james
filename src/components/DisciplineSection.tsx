@@ -1,4 +1,4 @@
-import { MapPin } from 'lucide-react'
+import { formatMark } from '../lib/display'
 import type { Discipline, GroupStanding, IndividualResult } from '../data/mock'
 import { courseName } from '../data/mock'
 import GenderSplit from './GenderSplit'
@@ -16,32 +16,32 @@ export default function DisciplineSection({ discipline, standings, results }: Pr
   const isUnisex = discipline.genero === 'unisex'
 
   return (
-    <article aria-labelledby={`disc-${discipline.id}`} className="card-formal p-4 md:p-6">
+    <article aria-labelledby={`disc-${discipline.id}`} className="card-formal discipline-card p-4 md:p-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h3 id={`disc-${discipline.id}`} className="font-heading text-2xl font-semibold">
+          <h2 id={`disc-${discipline.id}`} className="font-heading text-2xl font-semibold">
             {discipline.nombre}
-          </h3>
+          </h2>
           <p className="mt-1 flex items-center gap-1 text-sm text-ink-muted">
-            <MapPin size={14} aria-hidden="true" /> {discipline.sede}
+            {discipline.sede}
           </p>
         </div>
         <div className="flex gap-2">
-          <span className="badge-formal">{discipline.tipo === 'grupal' ? 'Team event' : 'Individual event'}</span>
-          <span className="badge-formal">{isUnisex ? 'Unisex' : discipline.genero === 'M' ? 'Male' : 'Female'}</span>
+          <span className="event-label">{discipline.tipo === 'grupal' ? 'Por equipos' : 'Prueba individual'}</span>
+          <span className="badge-formal">{isUnisex ? 'Categoría mixta' : discipline.tipo === 'individual' ? 'Masculino y femenino' : discipline.genero === 'M' ? 'Masculino' : 'Femenino'}</span>
         </div>
       </div>
 
       <div className="mt-4">
         {discipline.tipo === 'grupal' && standings && (
           <div className="overflow-x-auto">
-            <table className="table-formal min-w-[520px]" aria-label={`${discipline.nombre} standings`}>
+            <table className="table-formal" aria-label={`Clasificación de ${discipline.nombre}`}>
               <thead>
                 <tr>
-                  <th scope="col">Course</th>
-                  <th scope="col" className="text-right">Played</th>
-                  <th scope="col" className="text-right">Won</th>
-                  <th scope="col" className="text-right">Points</th>
+                  <th scope="col">Curso</th>
+                  <th scope="col" className="text-right">Jugados</th>
+                  <th scope="col" className="text-right">Ganados</th>
+                  <th scope="col" className="text-right">Puntos</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,19 +62,19 @@ export default function DisciplineSection({ discipline, standings, results }: Pr
           <GenderSplit
             title={discipline.nombre}
             rows={results}
-            caption="Positions by course, split into two columns on the same page."
+            caption="Resultados por categoría. Las marcas son de ejemplo."
           />
         )}
 
         {discipline.tipo === 'individual' && results && isUnisex && (
           <div className="overflow-x-auto">
-            <table className="table-formal min-w-[520px]" aria-label={`${discipline.nombre} unisex standings`}>
+            <table className="table-formal" aria-label={`Clasificación mixta de ${discipline.nombre}`}>
               <thead>
                 <tr>
-                  <th scope="col">Pos</th>
-                  <th scope="col">Player</th>
-                  <th scope="col">Course</th>
-                  <th scope="col">Score</th>
+                  <th scope="col">Pos.</th>
+                  <th scope="col">Estudiante</th>
+                  <th scope="col">Curso</th>
+                  <th scope="col">Puntos</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +83,7 @@ export default function DisciplineSection({ discipline, standings, results }: Pr
                     <td className="font-semibold tabular-nums">{r.position}</td>
                     <td>{r.athleteName}</td>
                     <td>{courseName(r.courseId)}</td>
-                    <td className="tabular-nums">{r.mark}</td>
+                    <td className="tabular-nums">{formatMark(r.mark)}</td>
                   </tr>
                 ))}
               </tbody>

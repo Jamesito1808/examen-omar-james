@@ -4,27 +4,27 @@ export default {
   theme: {
     extend: {
       colors: {
-        paper: '#FFFFFF',
-        surface: '#F8FAFC',
+        paper: 'var(--bg)',
+        surface: 'var(--surface)',
         ink: {
-          DEFAULT: '#0F172A',
-          soft: '#1E293B',
-          muted: '#475569',
+          DEFAULT: 'var(--ink)',
+          soft: 'var(--ink-soft)',
+          muted: 'var(--ink-muted)',
         },
         navy: {
-          DEFAULT: '#1E3A5F',
-          dark: '#152A45',
-          light: '#E8EEF4',
+          DEFAULT: 'var(--primary)',
+          dark: 'var(--primary)',
+          light: 'var(--surface)',
         },
         gold: {
-          DEFAULT: '#8A7535',
-          soft: '#F5F0DF',
+          DEFAULT: 'var(--clay)',
+          soft: 'var(--surface)',
         },
-        line: '#E2E8F0',
+        line: 'var(--border)',
       },
       fontFamily: {
-        serif: ['"EB Garamond"', '"Source Serif 4"', 'Georgia', 'serif'],
-        sans: ['Inter', '"Lato"', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Barlow Condensed"', 'sans-serif'],
+        sans: ['Barlow', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         card: '6px',
